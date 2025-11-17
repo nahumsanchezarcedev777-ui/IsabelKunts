@@ -1,0 +1,144 @@
+# ================================================================================
+#  Inanna Sophia AI - requirements.txt (Consolidado Maestro para Proyecto Unificado)
+# ================================================================================
+# Creador: Nahum Sanchez Arce (El Principal)
+#
+# Instrucciones de Instalación:
+# 1. PYTHON: Usa Python 3.9 o superior.
+# 2. ENTORNO VIRTUAL: ¡SIEMPRE!
+#    python -m venv venv
+#    Windows: venv\Scripts\activate
+#    Linux/macOS/Termux: source venv/bin/activate
+# 3. DEPENDENCIAS CRÍTICAS DE SISTEMA/MANUALES (INSTALAR ANTES):
+#    - FFmpeg: Necesario para `openai-whisper`. Descargar de ffmpeg.org y AÑADIR AL PATH del sistema.
+#              Verificar con: ffmpeg -version
+#    - PyAudio: Para `SpeechRecognition` con micrófono. Instalación OS-dependiente:
+#               Windows: Prerrequisito "Microsoft C++ Build Tools". Luego `pip install pipwin` y `pipwin install pyaudio` (o intenta `pip install pyaudio` directamente).
+#               Linux (Debian/Ubuntu): `sudo apt-get update && sudo apt-get install python3-pyaudio portaudio19-dev libasound2-dev`
+#               Linux (Fedora): `sudo dnf install python3-pyaudio portaudio-devel alsa-lib-devel gcc redhat-rpm-config`
+#               macOS: `brew install portaudio && pip install pyaudio`
+#    - PyTorch: Para `transformers`, `sentence-transformers`, `openai-whisper`. Instalar DESDE pytorch.org para la versión correcta (CPU o CUDA GPU).
+#               Ej. CPU: pip3 install torch torchvision torchaudio
+#               Ej. CUDA 12.1: pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+# 4. INSTALACIÓN GENERAL (con entorno virtual activo):
+#    pip install -r requirements.txt
+# 5. DESCARGA DATOS NLTK:
+#    python -c "import nltk; nltk.download('vader_lexicon'); nltk.download('punkt')"
+# 6. (SOLO WINDOWS): Si `pyttsx3` falla después de todo, intenta: `pip install pypiwin32`
+# --------------------------------------------------------------------------------
+
+# --- Core & Base Functionality ---
+schedule>=1.2.0           # Programación de tareas (ActualizacionesAutomaticas)
+requests>=2.31.0          # Peticiones HTTP (APIs externas, SyncManager, etc.)
+# configparser              # (Built-in en Python 3.2+, no se necesita listar para pip)
+SpeechRecognition>=3.10.1   # Reconocimiento de Voz (STT - Google, CMU Sphinx, etc.)
+# PyAudio                   # Listado arriba como CRÍTICO. Descomentar si pip puede resolverlo tras los pasos manuales.
+pyttsx3>=2.90             # Texto a Voz (TTS) offline
+# pypiwin32                 # Opcional para pyttsx3 en Windows. Descomentar si es necesario.
+PyMuPDF>=1.23.0           # (Fitz) Para leer y extraer texto de PDFs
+Pillow>=10.0.0            # Manipulación de imágenes (Avatar 2D fallback, otras tareas visuales)
+packaging>=23.0           # Utilidad para manejo de versiones (dependencia de otras libs)
+typing_extensions>=4.7.0  # Para tipos avanzados de Python (dependencia de otras libs)
+nltk>=3.8.0               # Natural Language Toolkit (VADER para sentimiento base, tokenización)
+
+# --- NLP - Procesamiento de Lenguaje Natural Avanzado ---
+transformers>=4.35.0      # (Hugging Face) Para modelos NLP grandes (sentimiento, embeddings, QA, etc.)
+torch                     # Listado arriba como CRÍTICO (PyTorch backend)
+# tensorflow                # Alternativa a PyTorch (si se prefiere)
+sentencepiece>=0.1.99     # Requerido por muchos tokenizers de Transformers
+openai-whisper>=20231117  # (OpenAI) Para STT offline de alta calidad (requiere FFmpeg)
+sentence-transformers>=2.2.2 # Para generar embeddings de texto (Personal Coach, búsqueda semántica)
+
+# --- Base de Datos Vectorial (para Personal Coach, etc.) ---
+chromadb>=0.4.15          # Base de datos vectorial local (o la que elijas)
+# faiss-cpu>=1.7.4          # Alternativa, más compleja
+# faiss-gpu>=1.7.4          # Versión GPU de FAISS
+# pinecone-client>=2.2.4    # Alternativa cloud
+# weaviate-client>=3.23.0   # Alternativa open-source/cloud
+
+# --- Web Backend (si use_gui_tk = False en config.ini) ---
+Flask>=2.3.0              # Framework web
+python-socketio[client]>=5.8.0 # Para comunicación WebSocket (necesita [client] para pruebas de cliente si se hace)
+# flask-socketio        # Si se usa Flask, python-socketio es más genérico y puede usarse con otros.
+#                       # Flask-SocketIO es un wrapper específico para Flask: pip install Flask-SocketIO
+# Flask-CORS>=4.0.0       # Para manejo de CORS
+# FastAPI>=0.104.0        # Alternativa web
+# uvicorn[standard]>=0.23.0 # Servidor ASGI para FastAPI
+
+# --- NeuroModulator (BCI Conceptual) ---
+numpy>=1.24.0             # Operaciones numéricas (CRUCIAL para casi todo lo científico y ML)
+scipy>=1.11.0             # Procesamiento de señales (filtros, FFT), estadística, etc.
+sounddevice>=0.4.6        # Para E/S de audio (generar tonos binaurales, etc.)
+# pylsl>=1.16.0           # (LabStreamingLayer) Opcional, si se usa hardware EEG real que emita LSL
+
+# --- Módulos Avanzados Específicos (Descomentar e instalar según se implementen) ---
+
+# -- GUI Alternativa con Qt (si se abandona Tkinter o se ofrece como opción) --
+# PyQt6>=6.7.0
+# PySide6>=6.7.0
+# PyQt6-Qt6
+# PyQt6-sip
+# shiboken6
+
+# -- Avatar / 3D Rendering --
+# PyOpenGL>=3.1.6
+# Panda3D>=1.10.13
+
+# -- Data Analyzer --
+pandas>=2.1.0
+# matplotlib>=3.8.0
+# scikit-learn>=1.3.0
+
+# -- Science Module --
+sympy>=1.12
+# rdkit                   # Química-informática (instalación compleja, a menudo via Conda)
+# biopython>=1.81
+
+# -- Financial Analyzer --
+yfinance>=0.2.30
+# ta>=0.10.0              # Análisis Técnico
+
+# -- Electronics & Signal Processing --
+# PySpice                 # Simulación de circuitos (instalación compleja)
+# pyserial>=3.5           # Comunicación puerto serie
+
+# -- Sensor Interface --
+# (pyserial ya listado arriba si se descomenta)
+# RPi.GPIO                # Específico Raspberry Pi
+# smbus2                  # Específico I2C Linux
+
+# -- Security Assistant --
+# python-nmap>=0.7.1
+# beautifulsoup4>=4.12.0
+# lxml>=4.9.3
+
+# -- Archive Manager --
+py7zr>=0.20.0             # Para archivos 7z
+
+# -- Code Editor Core --
+pygments>=2.16.0          # Resaltado de sintaxis
+
+# -- SysAdmin Helper --
+paramiko>=3.3.0           # Cliente SSH
+# GitPython>=3.1.30
+
+# -- Reverse Engineer Toolkit --
+# capstone>=4.0.2           # Desensamblador
+
+# -- Quantum Computing (Conceptual Avanzado) --
+# qiskit>=0.45.0
+# cirq>=1.2.0
+# pennylane>=0.33.0
+
+# --- Utilidades (de tu lista de 10, y otras generales) ---
+colorama>=0.4.6           # Texto con color en consola (útil para logs de consola con más estilo)
+
+# Las siguientes (de tu lista corta) son usualmente dependencias de otras herramientas (como pytest)
+# o son módulos built-in con versiones específicas que raramente se necesitan listar explícitamente.
+# Las comento por ahora, pero si tienes un error de "módulo no encontrado" para ellas, puedes descomentarlas.
+# audioop-lts==0.2.1      # (audioop es built-in)
+# iniconfig==2.0.0        # Usado por pytest
+# pluggy==1.3.0           # Usado por pytest
+# pytest>=7.4.2           # Testing (si implementas)
+# standard-aifc==3.11.0.post1 # (aifc es built-in)
+# standard-chunk==3.11.0.post1# (chunk es built-in)
